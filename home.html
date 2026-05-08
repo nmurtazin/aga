@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ага — Платформа для изучения английского</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2db56b;
+            --secondary: #667eea;
+            --tertiary: #f59e0b;
+            --bg: #f5f4ef;
+            --dark: #1f2328;
+            --light: #ffffff;
+            --muted: #8a8f98;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, var(--bg) 0%, #ece8df 100%);
+            color: var(--dark);
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .version {
+            font-size: 13px;
+            color: #a0a4aa;
+            font-weight: 500;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background: var(--light);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            text-decoration: none;
+            color: var(--dark);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--tertiary));
+            transition: left 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .card:hover::before {
+            left: 0;
+        }
+
+        .card-icon {
+            font-size: 40px;
+            line-height: 1;
+        }
+
+        .card h2 {
+            font-size: 22px;
+            margin: 0;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .card-features {
+            font-size: 13px;
+            color: #71757d;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .feature::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--primary), #24a05e);
+            color: white;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin-top: auto;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(45, 181, 107, 0.3);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .stat {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 1px solid #ece8df;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 32px;
+            }
+
+            .logo {
+                font-size: 36px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .container {
+                padding: 24px 16px;
+            }
+
+            header {
+                margin-bottom: 40px;
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e9f6ef;
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .coming-soon {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .coming-soon .btn {
+            background: #ddd;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <span class="logo">🎓</span>
+            <h1>Ага</h1>
+            <p class="subtitle">Платформа для изучения английского</p>
+            <p class="version">v1.0 • Бесплатно • Без регистрации</p>
+        </header>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Режима обучения</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Шуток на английском</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">🎤</div>
+                <div class="stat-label">Распознавание речи</div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <a href="index.html" class="card">
+                <div class="card-icon">💬</div>
+                <h2>Свободный разговор</h2>
+                <p class="card-description">Практикуйте английский в естественной диалоговой обстановке</p>
+                <div class="card-features">
+                    <div class="feature">Общение на английском</div>
+                    <div class="feature">Автоматический перевод</div>
+                    <div class="feature">Синтез речи</div>
+                    <div class="feature">Ввод голосом</div>
+                </div>
+                <button class="btn">Начать →</button>
+            </a>
+
+            <a href="index.html" class="card">
+                <div class="card-icon">🎤</div>
+                <h2>Тренировка произношения</h2>
+                <p class="card-description">Отрабатывайте фразы и улучшайте произношение</p>
+                <div class="card-features">
+                    <div class="feature">Фиксированные фразы</div>
+                    <div class="feature">XP система</div>
+                    <div class="feature">Проверка микрофоном</div>
+                    <div class="feature">Отслеживание прогресса</div>
+                </div>
+                <button class="btn">Тренироваться →</button>
+            </a>
+
+            <a href="joke-generator.html" class="card">
+                <div class="card-icon">😂</div>
+                <h2>Генератор шуток</h2>
+                <p class="card-description">Учитесь на забавных историях на английском</p>
+                <div class="card-features">
+                    <div class="feature">Случайные шутки</div>
+                    <div class="feature">Разные категории</div>
+                    <div class="feature">Прослушивание</div>
+                    <div class="feature">Копирование текста</div>
+                </div>
+                <button class="btn">Смешить →</button>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>
+            Создано с ❤️ для изучения английского языка<br>
+            <a href="https://github.com/nmurtazin/aga" target="_blank">GitHub репозиторий</a> • 
+            <a href="README.md">Документация</a> • 
+            <a href="https://github.com/nmurtazin" target="_blank">Автор</a>
+        </p>
+    </footer>
+</body>
+</html>
