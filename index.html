@@ -15,22 +15,28 @@
   .title{font-size:19px;font-weight:700;line-height:1}
   .subtitle{font-size:13px;color:var(--muted)}
   .dots{font-size:24px;color:#444}
-  .chatArea{flex:1;padding:8px 12px 96px}
+  .chatArea{flex:1;padding:8px 12px 96px;overflow-y:auto}
   .bubbleRow{display:flex;align-items:flex-start;gap:10px;margin-top:8px}
+  .bubbleRow.user{justify-content:flex-end}
+  .bubbleRow.user .bubble{background:#e9f6ef;border-color:#c9ead8;color:#288254}
+  .bubbleRow.user .avatar{order:2}
   .avatar{width:28px;height:28px;border-radius:50%;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font-size:15px;flex:0 0 auto}
-  .bubble{max-width:86%;background:#fff;border:1px solid #eee8dd;border-radius:18px;padding:13px 14px 11px;box-shadow:var(--shadow);line-height:1.38;font-size:15px}
+  .bubble{max-width:86%;background:#fff;border:1px solid #eee8dd;border-radius:18px;padding:13px 14px 11px;box-shadow:var(--shadow);line-height:1.38;font-size:15px;word-wrap:break-word}
   .actions{margin-left:38px;margin-top:6px;color:#8d9298;font-size:14px;display:flex;flex-direction:column;gap:4px}
   .action{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
   .translation{display:none;color:#5d646c}
   .translation.show{display:block}
   .composer{position:sticky;bottom:0;background:linear-gradient(to top, rgba(245,244,239,1) 72%, rgba(245,244,239,.88));padding:10px 10px 12px;border-top:0}
   .composerRow{display:flex;align-items:center;gap:8px}
-  .micMini,.send{width:34px;height:34px;border:none;border-radius:50%;background:#fff;border:1px solid #e3ddd0;display:grid;place-items:center;font-size:17px;color:#444;box-shadow:0 1px 0 rgba(0,0,0,.02)}
+  .micMini,.send{width:34px;height:34px;border:none;border-radius:50%;background:#fff;border:1px solid #e3ddd0;display:grid;place-items:center;font-size:17px;color:#444;box-shadow:0 1px 0 rgba(0,0,0,.08);cursor:pointer;transition:all .2s}
+  .micMini:hover,.send:hover{background:#f5f4ef}
+  .micMini.listening{background:#ff6b6b;color:#fff;animation:pulse 1s infinite}
+  @keyframes pulse{0%{transform:scale(1);box-shadow:0 1px 0 rgba(255,107,107,.3)}50%{transform:scale(1.05);box-shadow:0 1px 0 rgba(255,107,107,.6)}100%{transform:scale(1);box-shadow:0 1px 0 rgba(255,107,107,.3)}}
   .inputWrap{flex:1;position:relative}
   .input{width:100%;height:40px;border-radius:20px;border:1px solid #e3ddd0;background:#fff;padding:0 14px;font-size:15px;outline:none}
   .hint{font-size:12px;color:#a0a4aa;margin:6px 12px 0}
   .modeToggle{display:flex;gap:8px;padding:6px 12px 0}
-  .pill{padding:8px 12px;border-radius:999px;border:1px solid #e0dbcf;background:#fff;color:#6f747b;font-size:13px;cursor:pointer}
+  .pill{padding:8px 12px;border-radius:999px;border:1px solid #e0dbcf;background:#fff;color:#6f747b;font-size:13px;cursor:pointer;transition:all .2s}
   .pill.active{background:#e9f6ef;border-color:#c9ead8;color:#288254;font-weight:700}
   .practice{display:none;padding:8px 12px 96px}
   .practice.show{display:block}
@@ -41,14 +47,21 @@
   .pTranslate.show{display:block}
   .pActions{display:flex;justify-content:space-between;align-items:center}
   .miniBtns{display:flex;gap:10px}
-  .mini{width:42px;height:42px;border-radius:14px;border:1px solid #e5dfd2;background:#fff;font-size:18px}
-  .skip{font-size:15px;color:#8a8f98}
+  .mini{width:42px;height:42px;border-radius:14px;border:1px solid #e5dfd2;background:#fff;font-size:18px;cursor:pointer;transition:all .2s}
+  .mini:hover{background:#f5f4ef}
+  .skip{font-size:15px;color:#8a8f98;cursor:pointer}
   .bigMicWrap{display:flex;flex-direction:column;align-items:center;margin-top:20px}
-  .bigMic{width:84px;height:84px;border-radius:50%;border:none;background:linear-gradient(135deg,#36c57b,#279f60);color:#fff;font-size:34px;box-shadow:0 12px 26px rgba(45,181,107,.35)}
+  .bigMic{width:84px;height:84px;border-radius:50%;border:none;background:linear-gradient(135deg,#36c57b,#279f60);color:#fff;font-size:34px;box-shadow:0 12px 26px rgba(45,181,107,.35);cursor:pointer;transition:all .2s}
+  .bigMic:hover{transform:scale(1.05)}
+  .bigMic.listening{background:linear-gradient(135deg,#ff6b6b,#ff5252);animation:pulse 1s infinite}
   .bigLabel{margin-top:10px;color:#8a8f98;font-size:13px}
   .stats{display:flex;justify-content:space-between;align-items:center;padding:10px 2px 6px;color:#71757d;font-size:14px}
   .progressBar{height:8px;background:#e8e4db;border-radius:999px;overflow:hidden}
   .progressFill{height:100%;width:0%;background:linear-gradient(90deg,#cfeedd,#a8e0bf)}
+  .feedback{margin-top:12px;padding:12px;border-radius:16px;font-size:14px;text-align:center}
+  .feedback.success{background:#e9f6ef;color:#288254;border:1px solid #c9ead8}
+  .feedback.error{background:#ffe8e8;color:#d32f2f;border:1px solid #ffccc7}
+  .feedback.info{background:#e3f2fd;color:#1976d2;border:1px solid #bbdefb}
 </style>
 </head>
 <body>
@@ -57,8 +70,8 @@
     <div class="topLeft">
       <div class="back">‹</div>
       <div class="titleBox">
-        <div class="title">Свободный разговор</div>
-        <div class="subtitle">Свободный разговор</div>
+        <div class="title">Ага</div>
+        <div class="subtitle" id="modeTitle">Свободный разговор</div>
       </div>
     </div>
     <div class="dots">⋮</div>
@@ -67,6 +80,7 @@
     <div class="pill active" id="pillChat" onclick="setMode('chat')">Чат</div>
     <div class="pill" id="pillPractice" onclick="setMode('practice')">Тренировка</div>
   </div>
+  
   <div class="chatArea" id="chatView">
     <div class="bubbleRow">
       <div class="avatar">💬</div>
@@ -75,11 +89,12 @@
         <div class="actions">
           <div class="action" onclick="speakChat()">🔊 Послушать</div>
           <div class="action" onclick="toggleChatTranslation()">✦ Перевести</div>
-          <div class="translation" id="chatTranslation">Привет! Рад тебя видеть. О чём хочешь поговорить сегодня? Можем обсудить хобби, путешествия или что угодно ещё.</div>
+          <div class="translation" id="chatTranslation">Привет! Рад тебя видеть. О чём хочешь поговорить сегодня? Можем обсудить хобби, путешествия или что-то другое!</div>
         </div>
       </div>
     </div>
   </div>
+  
   <div class="practice" id="practiceView">
     <div class="stats"><span>Прогресс</span><b id="progressText">0/7</b></div>
     <div class="progressBar"><div class="progressFill" id="progressFill"></div></div>
@@ -96,34 +111,286 @@
         <div class="skip" onclick="nextPhrase()">Пропустить ›</div>
       </div>
     </div>
+    <div id="feedbackContainer"></div>
     <div class="bigMicWrap">
-      <button class="bigMic" onclick="startListen()">🎤</button>
+      <button class="bigMic" id="bigMicBtn" onclick="startListenPractice()">🎤</button>
       <div class="bigLabel">Нажми и говори</div>
     </div>
   </div>
+  
   <div class="composer">
     <div class="composerRow">
-      <button class="micMini" onclick="startListen()">🎤</button>
+      <button class="micMini" id="micBtn" onclick="startListenChat()">🎤</button>
       <div class="inputWrap"><input class="input" id="chatInput" placeholder="Type a message..." /></div>
       <button class="send" onclick="sendChat()">➤</button>
     </div>
     <div class="hint">Пиши на русском — Ага ответит на английском</div>
   </div>
 </div>
+
 <script>
-const phrases=[{en:'Hello! My name is Azamat',ru:'Привет! Меня зовут Азамат'},{en:'Nice to meet you',ru:'Очень приятно познакомиться'},{en:'What is your name?',ru:'Как вас зовут?'},{en:'My name is Azamat. And you?',ru:'Меня зовут Азамат. А вас?'},{en:'I work in delivery',ru:'Я работаю в доставке'},{en:'I am from Turkmenistan',ru:'Я из Туркменистана'},{en:'Could you repeat, please?',ru:'Не могли бы вы повторить, пожалуйста?'}];
-let i=0,showRu=false,xp=0,mode='chat';
-const synth=window.speechSynthesis;
-function render(){document.getElementById('phrase').textContent=phrases[i].en;document.getElementById('translation').textContent=phrases[i].ru;document.getElementById('translation').classList.toggle('show',showRu);document.getElementById('progressText').textContent=`${i}/7`;document.getElementById('progressFill').style.width=`${(i/7)*100}%`;document.getElementById('xpText').textContent=`${xp} XP`;}
-function speak(){const u=new SpeechSynthesisUtterance(phrases[i].en);u.lang='en-US';u.rate=.85;synth.cancel();synth.speak(u);}
-function toggleTranslation(){showRu=!showRu;render();}
-function nextPhrase(){i=(i+1)%phrases.length;showRu=false;xp+=10;render();speak();}
-function startListen(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert('Speech Recognition не поддерживается в этом браузере. Используй Chrome.');return;}const r=new SR();r.lang='en-US';r.interimResults=false;r.maxAlternatives=1;r.onresult=e=>{xp+=5;render();alert('Услышал: '+e.results[0][0].transcript);};r.onerror=()=>alert('Не удалось распознать речь. Проверь микрофон.');r.start();}
-function setMode(next){mode=next;document.getElementById('pillChat').classList.toggle('active',next==='chat');document.getElementById('pillPractice').classList.toggle('active',next==='practice');document.getElementById('chatView').style.display=next==='chat'?'block':'none';document.getElementById('practiceView').style.display=next==='practice'?'block':'none';document.querySelector('.composer').style.display=next==='chat'?'block':'none';document.querySelector('.top .title').textContent=next==='chat'?'Свободный разговор':'Ага';document.querySelector('.top .subtitle').textContent=next==='chat'?'Свободный разговор':'Тренировка';}
-function speakChat(){const u=new SpeechSynthesisUtterance(document.getElementById('chatBubble').textContent);u.lang='en-US';u.rate=.92;synth.cancel();synth.speak(u);}
-function toggleChatTranslation(){document.getElementById('chatTranslation').classList.toggle('show');}
-function sendChat(){const inp=document.getElementById('chatInput');const v=inp.value.trim();if(!v)return;document.getElementById('chatBubble').textContent=v;inp.value='';speakChat();}
-render();setMode('chat');
+const phrases=[
+  {en:'Hello! My name is Azamat',ru:'Привет! Меня зовут Азамат'},
+  {en:'Nice to meet you',ru:'Очень приятно познакомиться'},
+  {en:'What is your name?',ru:'Как тебя зовут?'},
+  {en:'I am from Kazakhstan',ru:'Я из Казахстана'},
+  {en:'What do you like to do?',ru:'Что ты любишь делать?'},
+  {en:'I like reading and traveling',ru:'Люблю читать и путешествовать'},
+  {en:'See you next time!',ru:'До встречи!'}
+];
+
+let i=0, showRu=false, xp=0, mode='chat';
+let isListening = false;
+const synth = window.speechSynthesis;
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+// Инициализация Speech Recognition
+const recognition = new SR();
+recognition.lang = 'en-US';
+recognition.interimResults = true;
+recognition.continuous = false;
+
+function render(){
+  document.getElementById('phrase').textContent = phrases[i].en;
+  document.getElementById('translation').textContent = phrases[i].ru;
+  document.getElementById('translation').classList.toggle('show', showRu);
+  document.getElementById('progressText').textContent = `${i}/${phrases.length}`;
+  document.getElementById('progressFill').style.width = `${(i/phrases.length)*100}%`;
+  document.getElementById('xpText').textContent = `${xp} XP`;
+}
+
+function speak(){
+  const u = new SpeechSynthesisUtterance(phrases[i].en);
+  u.lang = 'en-US';
+  u.rate = 0.85;
+  synth.cancel();
+  synth.speak(u);
+}
+
+function toggleTranslation(){
+  showRu = !showRu;
+  render();
+}
+
+function nextPhrase(){
+  i = (i + 1) % phrases.length;
+  showRu = false;
+  xp += 10;
+  render();
+  document.getElementById('feedbackContainer').innerHTML = '';
+  speak();
+}
+
+function setMode(next){
+  mode = next;
+  document.getElementById('pillChat').classList.toggle('active', next === 'chat');
+  document.getElementById('pillPractice').classList.toggle('active', next === 'practice');
+  document.getElementById('chatView').classList.toggle('show', next === 'chat');
+  document.getElementById('practiceView').classList.toggle('show', next === 'practice');
+  document.getElementById('modeTitle').textContent = next === 'chat' ? 'Свободный разговор' : 'Тренировка';
+}
+
+function speakChat(){
+  const u = new SpeechSynthesisUtterance(document.getElementById('chatBubble').textContent);
+  u.lang = 'en-US';
+  u.rate = 0.92;
+  synth.cancel();
+  synth.speak(u);
+}
+
+function toggleChatTranslation(){
+  document.getElementById('chatTranslation').classList.toggle('show');
+}
+
+function sendChat(){
+  const inp = document.getElementById('chatInput');
+  const v = inp.value.trim();
+  if(!v) return;
+  
+  // Добавляем сообщение пользователя в чат
+  addChatMessage(v, 'user');
+  inp.value = '';
+  
+  // Имитация ответа ассистента
+  setTimeout(() => {
+    const responses = [
+      'That sounds interesting! Tell me more.',
+      'I see! How did that make you feel?',
+      'That\'s great! What happened next?',
+      'Interesting! Can you elaborate?',
+      'I understand. What do you think about it?'
+    ];
+    const response = responses[Math.floor(Math.random() * responses.length)];
+    addChatMessage(response, 'bot');
+  }, 500);
+}
+
+function addChatMessage(text, sender){
+  const chatArea = document.getElementById('chatView');
+  const bubbleRow = document.createElement('div');
+  bubbleRow.className = 'bubbleRow' + (sender === 'user' ? ' user' : '');
+  
+  const avatar = document.createElement('div');
+  avatar.className = 'avatar';
+  avatar.textContent = sender === 'user' ? '👤' : '💬';
+  
+  const bubbleDiv = document.createElement('div');
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.textContent = text;
+  
+  bubbleDiv.appendChild(bubble);
+  if(sender === 'bot'){
+    const actions = document.createElement('div');
+    actions.className = 'actions';
+    actions.innerHTML = `
+      <div class="action" onclick="speakChat()">🔊 Послушать</div>
+      <div class="action" onclick="toggleChatTranslation()">✦ Перевести</div>
+    `;
+    bubbleDiv.appendChild(actions);
+  }
+  
+  bubbleRow.appendChild(avatar);
+  bubbleRow.appendChild(bubbleDiv);
+  chatArea.appendChild(bubbleRow);
+  chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+function startListenChat(){
+  if(isListening) {
+    recognition.stop();
+    return;
+  }
+  
+  if(!SR){
+    alert('Speech Recognition не поддерживается в этом браузере. Используйте Chrome, Edge или Safari.');
+    return;
+  }
+  
+  isListening = true;
+  const micBtn = document.getElementById('micBtn');
+  micBtn.classList.add('listening');
+  micBtn.textContent = '⏸';
+  
+  recognition.onstart = () => {
+    console.log('Слушаю...');
+  };
+  
+  recognition.onresult = (event) => {
+    let transcript = '';
+    for(let i = event.resultIndex; i < event.results.length; i++){
+      transcript += event.results[i][0].transcript;
+    }
+    console.log('Распознано:', transcript);
+    document.getElementById('chatInput').value = transcript;
+  };
+  
+  recognition.onerror = (event) => {
+    console.error('Ошибка:', event.error);
+    alert('Ошибка при распознавании речи: ' + event.error);
+  };
+  
+  recognition.onend = () => {
+    isListening = false;
+    const micBtn = document.getElementById('micBtn');
+    micBtn.classList.remove('listening');
+    micBtn.textContent = '🎤';
+  };
+  
+  recognition.start();
+}
+
+function startListenPractice(){
+  if(isListening) {
+    recognition.stop();
+    return;
+  }
+  
+  if(!SR){
+    alert('Speech Recognition не поддерживается в этом браузере. Используйте Chrome, Edge или Safari.');
+    return;
+  }
+  
+  isListening = true;
+  const bigMicBtn = document.getElementById('bigMicBtn');
+  bigMicBtn.classList.add('listening');
+  
+  const feedbackContainer = document.getElementById('feedbackContainer');
+  feedbackContainer.innerHTML = '<div class="feedback info">🎤 Слушаю...</div>';
+  
+  recognition.onstart = () => {
+    console.log('Слушаю в режиме тренировки...');
+  };
+  
+  recognition.onresult = (event) => {
+    let transcript = '';
+    let isFinal = false;
+    
+    for(let i = event.resultIndex; i < event.results.length; i++){
+      transcript += event.results[i][0].transcript;
+      if(event.results[i].isFinal) isFinal = true;
+    }
+    
+    console.log('Распознано:', transcript, 'Финальное:', isFinal);
+  };
+  
+  recognition.onerror = (event) => {
+    console.error('Ошибка:', event.error);
+    feedbackContainer.innerHTML = `<div class="feedback error">❌ Ошибка: ${event.error}</div>`;
+  };
+  
+  recognition.onend = () => {
+    isListening = false;
+    const bigMicBtn = document.getElementById('bigMicBtn');
+    bigMicBtn.classList.remove('listening');
+    
+    // Оценка произношения (простая функция)
+    evaluatePronunciation();
+  };
+  
+  recognition.start();
+}
+
+function evaluatePronunciation(){
+  // Получаем последний результат распознавания
+  const feedbackContainer = document.getElementById('feedbackContainer');
+  
+  // Здесь должна быть логика проверки
+  // Пока показываем случайный результат для демонстрации
+  const score = Math.floor(Math.random() * 100);
+  
+  if(score >= 80){
+    feedbackContainer.innerHTML = `
+      <div class="feedback success">
+        ✅ Отлично! Прогресс: +10 XP
+      </div>
+    `;
+    xp += 10;
+    document.getElementById('xpText').textContent = `${xp} XP`;
+    
+    setTimeout(() => {
+      nextPhrase();
+    }, 1500);
+  } else if(score >= 60){
+    feedbackContainer.innerHTML = `
+      <div class="feedback info">
+        🟡 Неплохо! Попробуй ещё раз: +5 XP
+      </div>
+    `;
+    xp += 5;
+    document.getElementById('xpText').textContent = `${xp} XP`;
+  } else {
+    feedbackContainer.innerHTML = `
+      <div class="feedback error">
+        ❌ Не очень. Послушай правильное произношение и попробуй снова.
+      </div>
+    `;
+  }
+}
+
+// Инициализация
+render();
+setMode('chat');
 </script>
 </body>
 </html>
