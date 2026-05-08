@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Ага — Свободный разговор</title>
+<style>
+  :root{--bg:#f5f4ef;--card:#ffffff;--text:#1f2328;--muted:#8a8f98;--green:#2db56b;--line:#ece8df;--shadow:0 10px 22px rgba(0,0,0,.08)}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;color:var(--text)}
+  .app{max-width:520px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background:var(--bg)}
+  .top{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 8px;background:var(--bg)}
+  .topLeft{display:flex;align-items:center;gap:12px}
+  .back{font-size:26px;color:#333}
+  .titleBox{display:flex;flex-direction:column;gap:2px}
+  .title{font-size:19px;font-weight:700;line-height:1}
+  .subtitle{font-size:13px;color:var(--muted)}
+  .dots{font-size:24px;color:#444}
+  .chatArea{flex:1;padding:8px 12px 96px}
+  .bubbleRow{display:flex;align-items:flex-start;gap:10px;margin-top:8px}
+  .avatar{width:28px;height:28px;border-radius:50%;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font-size:15px;flex:0 0 auto}
+  .bubble{max-width:86%;background:#fff;border:1px solid #eee8dd;border-radius:18px;padding:13px 14px 11px;box-shadow:var(--shadow);line-height:1.38;font-size:15px}
+  .actions{margin-left:38px;margin-top:6px;color:#8d9298;font-size:14px;display:flex;flex-direction:column;gap:4px}
+  .action{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+  .translation{display:none;color:#5d646c}
+  .translation.show{display:block}
+  .composer{position:sticky;bottom:0;background:linear-gradient(to top, rgba(245,244,239,1) 72%, rgba(245,244,239,.88));padding:10px 10px 12px;border-top:0}
+  .composerRow{display:flex;align-items:center;gap:8px}
+  .micMini,.send{width:34px;height:34px;border:none;border-radius:50%;background:#fff;border:1px solid #e3ddd0;display:grid;place-items:center;font-size:17px;color:#444;box-shadow:0 1px 0 rgba(0,0,0,.02)}
+  .inputWrap{flex:1;position:relative}
+  .input{width:100%;height:40px;border-radius:20px;border:1px solid #e3ddd0;background:#fff;padding:0 14px;font-size:15px;outline:none}
+  .hint{font-size:12px;color:#a0a4aa;margin:6px 12px 0}
+  .modeToggle{display:flex;gap:8px;padding:6px 12px 0}
+  .pill{padding:8px 12px;border-radius:999px;border:1px solid #e0dbcf;background:#fff;color:#6f747b;font-size:13px;cursor:pointer}
+  .pill.active{background:#e9f6ef;border-color:#c9ead8;color:#288254;font-weight:700}
+  .practice{display:none;padding:8px 12px 96px}
+  .practice.show{display:block}
+  .pCard{background:#fff;border:1px solid #ede7dc;border-radius:22px;box-shadow:var(--shadow);padding:16px;margin-top:8px}
+  .topic{font-size:12px;font-weight:800;letter-spacing:.08em;color:#41ab6f;text-transform:uppercase;margin-bottom:10px}
+  .phrase{font-size:30px;font-weight:800;line-height:1.12;margin-bottom:14px;letter-spacing:-.03em}
+  .pTranslate{display:none;background:#f7f5ef;border:1px dashed #dfd8ca;border-radius:16px;padding:12px 14px;font-size:18px;color:#4d5560;margin-bottom:12px}
+  .pTranslate.show{display:block}
+  .pActions{display:flex;justify-content:space-between;align-items:center}
+  .miniBtns{display:flex;gap:10px}
+  .mini{width:42px;height:42px;border-radius:14px;border:1px solid #e5dfd2;background:#fff;font-size:18px}
+  .skip{font-size:15px;color:#8a8f98}
+  .bigMicWrap{display:flex;flex-direction:column;align-items:center;margin-top:20px}
+  .bigMic{width:84px;height:84px;border-radius:50%;border:none;background:linear-gradient(135deg,#36c57b,#279f60);color:#fff;font-size:34px;box-shadow:0 12px 26px rgba(45,181,107,.35)}
+  .bigLabel{margin-top:10px;color:#8a8f98;font-size:13px}
+  .stats{display:flex;justify-content:space-between;align-items:center;padding:10px 2px 6px;color:#71757d;font-size:14px}
+  .progressBar{height:8px;background:#e8e4db;border-radius:999px;overflow:hidden}
+  .progressFill{height:100%;width:0%;background:linear-gradient(90deg,#cfeedd,#a8e0bf)}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div class="topLeft">
+      <div class="back">‹</div>
+      <div class="titleBox">
+        <div class="title">Свободный разговор</div>
+        <div class="subtitle">Свободный разговор</div>
+      </div>
+    </div>
+    <div class="dots">⋮</div>
+  </div>
+  <div class="modeToggle">
+    <div class="pill active" id="pillChat" onclick="setMode('chat')">Чат</div>
+    <div class="pill" id="pillPractice" onclick="setMode('practice')">Тренировка</div>
+  </div>
+  <div class="chatArea" id="chatView">
+    <div class="bubbleRow">
+      <div class="avatar">💬</div>
+      <div>
+        <div class="bubble" id="chatBubble">Hey there! It's great to see you. What would you like to talk about today? We can chat about hobbies, travel, or anything else you like!</div>
+        <div class="actions">
+          <div class="action" onclick="speakChat()">🔊 Послушать</div>
+          <div class="action" onclick="toggleChatTranslation()">✦ Перевести</div>
+          <div class="translation" id="chatTranslation">Привет! Рад тебя видеть. О чём хочешь поговорить сегодня? Можем обсудить хобби, путешествия или что угодно ещё.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="practice" id="practiceView">
+    <div class="stats"><span>Прогресс</span><b id="progressText">0/7</b></div>
+    <div class="progressBar"><div class="progressFill" id="progressFill"></div></div>
+    <div class="stats"><span>⚡ <b id="xpText">0 XP</b></span><span>🔥 <b>2 дн.</b></span></div>
+    <div class="pCard">
+      <div class="topic">Знакомство</div>
+      <div class="phrase" id="phrase">Hello! My name is Azamat</div>
+      <div class="pTranslate" id="translation">Привет! Меня зовут Азамат</div>
+      <div class="pActions">
+        <div class="miniBtns">
+          <button class="mini" onclick="speak()">🔊</button>
+          <button class="mini" onclick="toggleTranslation()">📖</button>
+        </div>
+        <div class="skip" onclick="nextPhrase()">Пропустить ›</div>
+      </div>
+    </div>
+    <div class="bigMicWrap">
+      <button class="bigMic" onclick="startListen()">🎤</button>
+      <div class="bigLabel">Нажми и говори</div>
+    </div>
+  </div>
+  <div class="composer">
+    <div class="composerRow">
+      <button class="micMini" onclick="startListen()">🎤</button>
+      <div class="inputWrap"><input class="input" id="chatInput" placeholder="Type a message..." /></div>
+      <button class="send" onclick="sendChat()">➤</button>
+    </div>
+    <div class="hint">Пиши на русском — Ага ответит на английском</div>
+  </div>
+</div>
+<script>
+const phrases=[{en:'Hello! My name is Azamat',ru:'Привет! Меня зовут Азамат'},{en:'Nice to meet you',ru:'Очень приятно познакомиться'},{en:'What is your name?',ru:'Как вас зовут?'},{en:'My name is Azamat. And you?',ru:'Меня зовут Азамат. А вас?'},{en:'I work in delivery',ru:'Я работаю в доставке'},{en:'I am from Turkmenistan',ru:'Я из Туркменистана'},{en:'Could you repeat, please?',ru:'Не могли бы вы повторить, пожалуйста?'}];
+let i=0,showRu=false,xp=0,mode='chat';
+const synth=window.speechSynthesis;
+function render(){document.getElementById('phrase').textContent=phrases[i].en;document.getElementById('translation').textContent=phrases[i].ru;document.getElementById('translation').classList.toggle('show',showRu);document.getElementById('progressText').textContent=`${i}/7`;document.getElementById('progressFill').style.width=`${(i/7)*100}%`;document.getElementById('xpText').textContent=`${xp} XP`;}
+function speak(){const u=new SpeechSynthesisUtterance(phrases[i].en);u.lang='en-US';u.rate=.85;synth.cancel();synth.speak(u);}
+function toggleTranslation(){showRu=!showRu;render();}
+function nextPhrase(){i=(i+1)%phrases.length;showRu=false;xp+=10;render();speak();}
+function startListen(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert('Speech Recognition не поддерживается в этом браузере. Используй Chrome.');return;}const r=new SR();r.lang='en-US';r.interimResults=false;r.maxAlternatives=1;r.onresult=e=>{xp+=5;render();alert('Услышал: '+e.results[0][0].transcript);};r.onerror=()=>alert('Не удалось распознать речь. Проверь микрофон.');r.start();}
+function setMode(next){mode=next;document.getElementById('pillChat').classList.toggle('active',next==='chat');document.getElementById('pillPractice').classList.toggle('active',next==='practice');document.getElementById('chatView').style.display=next==='chat'?'block':'none';document.getElementById('practiceView').style.display=next==='practice'?'block':'none';document.querySelector('.composer').style.display=next==='chat'?'block':'none';document.querySelector('.top .title').textContent=next==='chat'?'Свободный разговор':'Ага';document.querySelector('.top .subtitle').textContent=next==='chat'?'Свободный разговор':'Тренировка';}
+function speakChat(){const u=new SpeechSynthesisUtterance(document.getElementById('chatBubble').textContent);u.lang='en-US';u.rate=.92;synth.cancel();synth.speak(u);}
+function toggleChatTranslation(){document.getElementById('chatTranslation').classList.toggle('show');}
+function sendChat(){const inp=document.getElementById('chatInput');const v=inp.value.trim();if(!v)return;document.getElementById('chatBubble').textContent=v;inp.value='';speakChat();}
+render();setMode('chat');
+</script>
+</body>
+</html>
